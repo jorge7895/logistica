@@ -1,4 +1,4 @@
-package es.cic.curso00.curso00ejerc17;
+package es.cic.curso00.curso00ejerc17.controller;
 
 import java.util.List;
 

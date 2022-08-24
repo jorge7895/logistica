@@ -28,6 +28,7 @@ public class CompraService {
 	
 	public List<Producto> crear(List<Producto> productos){
 		
+		LOGGER.trace("Accediendo a la creacion de una compra");
 		
 		return productoDao.saveAll(productos);
 	}
