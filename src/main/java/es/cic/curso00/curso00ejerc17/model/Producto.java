@@ -20,9 +20,13 @@ public class Producto extends AbstractModel{
 	
 	private String marca;
 	
-	private float precio;
+	private float precioVenta;
 	
-	private long cantidad;
+	private float precioCompra;
+	
+	private long cantidadComprada;
+	
+	private long stock;
 	
 	private boolean activa;
 
@@ -42,22 +46,6 @@ public class Producto extends AbstractModel{
 		this.marca = marca;
 	}
 
-	public float getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(float precio) {
-		this.precio = precio;
-	}
-
-	public long getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(long cantidad) {
-		this.cantidad = cantidad;
-	}
-
 	public Compra getCompra() {
 		return compra;
 	}
@@ -72,6 +60,38 @@ public class Producto extends AbstractModel{
 
 	public void setActiva(boolean activa) {
 		this.activa = activa;
+	}
+
+	public float getPrecioVenta() {
+		return precioVenta;
+	}
+
+	public void setPrecioVenta(float precioVenta) {
+		this.precioVenta = precioVenta;
+	}
+
+	public float getPrecioCompra() {
+		return precioCompra;
+	}
+
+	public void setPrecioCompra(float precioCompra) {
+		this.precioCompra = precioCompra;
+	}
+
+	public long getCantidadComprada() {
+		return cantidadComprada;
+	}
+
+	public void setCantidadComprada(long cantidadComprada) {
+		this.cantidadComprada = cantidadComprada;
+	}
+
+	public long getStock() {
+		return stock;
+	}
+
+	public void setStock(long stock) {
+		this.stock = stock;
 	}
 	
 }

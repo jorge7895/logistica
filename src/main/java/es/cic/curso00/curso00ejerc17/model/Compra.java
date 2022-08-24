@@ -15,7 +15,7 @@ public class Compra extends AbstractModel{
 
 	private LocalDate fechaCompra;
 	
-	private float importeTotal;
+	private double importeTotal;
 	
 	private boolean activa;
 
@@ -27,19 +27,19 @@ public class Compra extends AbstractModel{
 		this.fechaCompra = fechaCompra;
 	}
 
-	public float getImporteTotal() {
-		return importeTotal;
-	}
-
-	public void setImporteTotal(float importeTotal) {
-		this.importeTotal = importeTotal;
-	}
-
 	public boolean isActiva() {
 		return activa;
 	}
 
 	public void setActiva(boolean activa) {
 		this.activa = activa;
+	}
+
+	public double getImporteTotal() {
+		return importeTotal;
+	}
+
+	public void setImporteTotal(double importeTotal) {
+		this.importeTotal = importeTotal;
 	}
 }

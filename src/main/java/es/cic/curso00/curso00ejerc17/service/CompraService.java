@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.repository.CompraDAO;
 import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
+import es.cic.curso00.curso00ejerc17.util.CompraUtil;
 
 @Service
 @Transactional
@@ -24,11 +25,18 @@ public class CompraService {
 	
 	@Autowired
 	private ProductoDAO productoDao;
+	
+	private CompraUtil compraUtil = new CompraUtil();
 
 	
 	public List<Producto> crear(List<Producto> productos){
 		
 		LOGGER.trace("Accediendo a la creacion de una compra");
+		
+		compraUtil.actualizarImporteTotal(productos);
+		compraUtil.actualizarStrock(productos);
+		
+		compraDao.save(productos.get(0).getCompra());
 		
 		return productoDao.saveAll(productos);
 	}

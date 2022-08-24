@@ -31,8 +31,8 @@ public class CompraController {
 
 		logger.trace("Creando una venta nueva cantidad: {}", productos.size());
 		
-		this.compraService.crear(productos);
+		List<Producto> compraCreada = this.compraService.crear(productos);
 
-		return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(productos);
+		return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(compraCreada);
 	}
 }

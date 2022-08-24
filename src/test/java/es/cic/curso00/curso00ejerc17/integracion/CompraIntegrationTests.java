@@ -59,11 +59,11 @@ class CompraIntegrationTests {
 		
 		producto = new Producto();
 		producto.setActiva(true);
-		producto.setCantidad(5);
+		producto.setCantidadComprada(5);
 		producto.setCompra(compra);
 		producto.setMarca("Micasa");
 		producto.setNombre("Balón de fútbol");
-		producto.setPrecio(5.0f);
+		producto.setPrecioCompra(5.0f);
 	}
 	
 	@Test
@@ -71,7 +71,7 @@ class CompraIntegrationTests {
 
 		List<Producto> productos = new ArrayList<>();
 		productos.add(producto);
-				
+		
 		mvc.perform(post("/api/v1/compra")
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -79,6 +79,7 @@ class CompraIntegrationTests {
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.[0].compra.fechaCompra",is("2022-10-08")))
+				.andExpect(jsonPath("$.[0].compra.importeTotal",is(25.0)))
 				.andDo(print());
 	}
 
