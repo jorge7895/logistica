@@ -2,6 +2,7 @@ package es.cic.curso00.curso00ejerc17.util;
 
 import java.util.List;
 
+import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
 
 public class CompraUtil {
@@ -14,11 +15,15 @@ public class CompraUtil {
 				.mapToDouble(p -> p.getCantidadComprada()*p.getPrecioCompra())
 				.sum();
 		
-		listaProductos.forEach(p -> p.getCompra().setImporteTotal(importeTotalActual));
+		listaProductos.forEach(p -> validarCompra(p.getCompra(), importeTotalActual));
 	}
 	
 	public void actualizarStrock(List<Producto> listaProductos) {
 				
 		listaProductos.forEach(p -> p.setStock(p.getStock()+p.getCantidadComprada()));
+	}
+	
+	public void validarCompra(Compra compra, double importeTotal) {
+		compra.setImporteTotal(importeTotal);
 	}
 }

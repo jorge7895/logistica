@@ -14,26 +14,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
-import es.cic.curso00.curso00ejerc17.service.CompraService;
+import es.cic.curso00.curso00ejerc17.model.Venta;
+import es.cic.curso00.curso00ejerc17.service.VentaService;
 
 @RestController
-@RequestMapping(path = "/api/v1/compra")
-public class CompraController {
-
-	private static final Logger LOGGER = LogManager.getLogger(CompraController.class);
+@RequestMapping(path = "/api/v1/venta")
+public class VentaController {
+	
+	private static final Logger LOGGER = LogManager.getLogger(VentaController.class);
 
 	@Autowired
-	private CompraService compraService;
+	private VentaService ventaService;
 	
 	@PostMapping
-	public ResponseEntity<Compra> crearCompra(@Validated @RequestBody List<Producto> productos) {
+	public ResponseEntity<Venta> crearVenta(@Validated @RequestBody List<Producto> productos) {
 
-		LOGGER.trace("Creando una compra nueva cantidad: {}", productos.size());
+		LOGGER.trace("Creando una venta nueva cantidad: {}", productos.size());
 		
-		Compra compraCreada = this.compraService.crear(productos);
+		Venta ventaCreada = this.ventaService.crear(productos);
 
-		return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(compraCreada);
+		return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(ventaCreada);
 	}
 }

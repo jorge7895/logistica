@@ -12,28 +12,29 @@ import org.junit.jupiter.api.Test;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
-import es.cic.curso00.curso00ejerc17.util.CompraUtil;
+import es.cic.curso00.curso00ejerc17.model.Venta;
+import es.cic.curso00.curso00ejerc17.util.VentaUtil;
 
-class CompraUtilTest {
-	
-	private CompraUtil cut;
+class VentaUtilTest {
+
+	private VentaUtil cut;
 	private Producto producto;
 	private Producto producto2;
-	private Compra compra;
+	private Venta venta;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		cut= new CompraUtil();
+		cut= new VentaUtil();
 		
-		compra = new Compra();
-		compra.setActiva(true);
-		compra.setFechaCompra(LocalDate.of(2022, Month.OCTOBER, 8));
+		venta = new Venta();
+		venta.setActiva(true);
+		venta.setFechaVenta(LocalDate.of(2022, Month.OCTOBER, 8));
 		
 		producto = new Producto();
 		producto.setActiva(true);
 		producto.setCantidadComprada(5);
-		producto.setCompra(compra);
+		producto.setVenta(venta);
 		producto.setMarca("MiCasa");
 		producto.setNombre("Balón de fútbol");
 		producto.setPrecioCompra(2.0f);
@@ -43,7 +44,7 @@ class CompraUtilTest {
 		producto2 = new Producto();
 		producto2.setActiva(true);
 		producto2.setCantidadComprada(10);
-		producto2.setCompra(compra);
+		producto2.setVenta(venta);
 		producto2.setMarca("MiCasa");
 		producto2.setNombre("Balón de fútbol");
 		producto2.setPrecioCompra(3.0f);
@@ -52,30 +53,15 @@ class CompraUtilTest {
 	}
 
 	@Test
-	void actualizarImporteTotalTest() {
+	void actualizarStockVentaTest() {
 		
 		List<Producto> listaProductos = new ArrayList<>();
-		listaProductos.add(producto);
 		listaProductos.add(producto2);
 		
 		cut.actualizarImporteTotal(listaProductos);
 		cut.actualizarStrock(listaProductos);
 		
-		assertEquals(40, compra.getImporteTotal());
+		assertEquals(90, producto2.getStock());
 	}
-	
-	@Test
-	void actualizarStockCompraTest() {
-		
-		List<Producto> listaProductos = new ArrayList<>();
-		listaProductos.add(producto);
-		
-		cut.actualizarImporteTotal(listaProductos);
-		cut.actualizarStrock(listaProductos);
-		
-		assertEquals(105, producto.getStock());
-	}
-	
-
 
 }

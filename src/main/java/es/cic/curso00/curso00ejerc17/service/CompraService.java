@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.repository.CompraDAO;
 import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
@@ -29,15 +30,17 @@ public class CompraService {
 	private CompraUtil compraUtil = new CompraUtil();
 
 	
-	public List<Producto> crear(List<Producto> productos){
+	public Compra crear(List<Producto> productos){
 		
 		LOGGER.trace("Accediendo a la creacion de una compra");
 		
 		compraUtil.actualizarImporteTotal(productos);
 		compraUtil.actualizarStrock(productos);
 		
-		compraDao.save(productos.get(0).getCompra());
+		Compra compra = productos.get(0).getCompra();
 		
-		return productoDao.saveAll(productos);
+		productoDao.saveAll(productos);
+		
+		return compraDao.save(compra);
 	}
 }

@@ -1,6 +1,7 @@
 package es.cic.curso00.curso00ejerc17.integracion;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,11 +30,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
+import es.cic.curso00.curso00ejerc17.model.Venta;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class CompraIntegrationTests {
+class VentaIntegrationTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -44,25 +46,24 @@ class CompraIntegrationTests {
 	@PersistenceContext
 	private EntityManager em;
 	
-	private Compra compra;
+	private Venta venta;
 	private Producto producto;
 	private Producto producto2;
 	private Producto producto3;
 	private LocalDate fecha;
 	
 	@BeforeEach
-	void setUp()  {
-		
+	void setUp() throws Exception {
 		fecha = LocalDate.of(2022, Month.OCTOBER, 8);
 		
-		compra = new Compra();
-		compra.setActiva(true);
-		compra.setFechaCompra(fecha);
+		venta = new Venta();
+		venta.setActiva(true);
+		venta.setFechaVenta(fecha);
 		
 		producto = new Producto();
 		producto.setActiva(true);
 		producto.setCantidadComprada(5);
-		producto.setCompra(compra);
+		producto.setVenta(venta);
 		producto.setMarca("Micasa");
 		producto.setNombre("Balón de fútbol");
 		producto.setPrecioCompra(5.0f);
@@ -70,7 +71,7 @@ class CompraIntegrationTests {
 		producto2 = new Producto();
 		producto2.setActiva(true);
 		producto2.setCantidadComprada(10);
-		producto2.setCompra(compra);
+		producto2.setVenta(venta);
 		producto2.setMarca("Micasa");
 		producto2.setNombre("Balón de baloncesto");
 		producto2.setPrecioCompra(3.0f);
@@ -78,28 +79,28 @@ class CompraIntegrationTests {
 		producto3 = new Producto();
 		producto3.setActiva(true);
 		producto3.setCantidadComprada(10);
-		producto3.setCompra(compra);
+		producto3.setVenta(venta);
 		producto3.setMarca("Micasa");
 		producto3.setNombre("Balón de balonmano");
 		producto3.setPrecioCompra(2.0f);
 	}
-	
-	@Test
-	void testCompra() throws JsonProcessingException, Exception {
 
+	@Test
+	void testCreateVenta() throws JsonProcessingException, Exception {
+		
 		List<Producto> productos = new ArrayList<>();
 		productos.add(producto);
 		productos.add(producto2);
 		productos.add(producto3);
 		
-		mvc.perform(post("/api/v1/compra")
+		mvc.perform(post("/api/v1/venta")
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(productos)))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.fechaCompra",is("2022-10-08")))
-				.andExpect(jsonPath("$.importeTotal",is(75.0)))
+				.andExpect(jsonPath("$.fechaVenta",is("2022-10-08")))
+				.andExpect(jsonPath("$.importeTotal",is(0.0)))
 				.andDo(print());
 	}
 

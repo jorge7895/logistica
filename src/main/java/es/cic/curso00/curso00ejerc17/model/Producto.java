@@ -4,17 +4,21 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import es.cic.curso00.curso00ejerc17.util.AbstractModel;
 
 @Entity
-@Table(name = "PRODUCTO")
+@Table(uniqueConstraints ={@UniqueConstraint(name = "UniqueProducto", columnNames = {"nombre", "marca"})})
 public class Producto extends AbstractModel{
 	
 	private static final long serialVersionUID = 8372988849485424671L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Compra compra;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Venta venta;
 	
 	private String nombre;
 	
@@ -92,6 +96,14 @@ public class Producto extends AbstractModel{
 
 	public void setStock(long stock) {
 		this.stock = stock;
+	}
+
+	public Venta getVenta() {
+		return venta;
+	}
+
+	public void setVenta(Venta venta) {
+		this.venta = venta;
 	}
 	
 }
