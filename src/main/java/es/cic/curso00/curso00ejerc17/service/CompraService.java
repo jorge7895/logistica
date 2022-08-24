@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
@@ -42,5 +44,9 @@ public class CompraService {
 		productoDao.saveAll(productos);
 		
 		return compraDao.save(compra);
+	}
+	
+	public Page<Compra> readCompras(Pageable pageable){
+		return compraDao.readCompras(pageable);
 	}
 }

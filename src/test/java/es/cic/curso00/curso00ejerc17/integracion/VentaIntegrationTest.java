@@ -1,6 +1,7 @@
 package es.cic.curso00.curso00ejerc17.integracion;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -80,6 +81,33 @@ class VentaIntegrationTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.fechaVenta",is("2022-10-08")))
 				.andExpect(jsonPath("$.importeTotal",is(100.0)))
+				.andDo(print());
+	}
+	
+	@Test
+	void testCreateVentaSinStock() throws JsonProcessingException, Exception {
+		
+		List<Producto> productos = new ArrayList<>();
+		producto1.setStock(0);
+		productos.add(producto1);
+		
+		mvc.perform(post("/api/v1/venta")
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(productos)))
+				.andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	void testReporteVenta() throws JsonProcessingException, Exception {
+		
+		em.persist(venta);
+		
+		mvc.perform(get("/api/v1/venta/totales"))
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.content.length()",is(1)))
+				.andExpect(jsonPath("$.content[0].fechaVenta",is("2022-10-08")))
 				.andDo(print());
 	}
 
