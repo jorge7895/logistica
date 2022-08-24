@@ -2,8 +2,6 @@ package es.cic.curso00.curso00ejerc17.unitarios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,67 +11,59 @@ import org.junit.jupiter.api.Test;
 import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.util.CompraUtil;
+import es.cic.curso00.curso00ejerc17.util.TestUtil;
 
 class CompraUtilTest {
 	
 	private CompraUtil cut;
-	private Producto producto;
+	private Producto producto1;
 	private Producto producto2;
+	private Producto producto3;
 	private Compra compra;
+	private TestUtil testUtil;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		
 		cut= new CompraUtil();
+		testUtil = new TestUtil();
 		
-		compra = new Compra();
-		compra.setActiva(true);
-		compra.setFechaCompra(LocalDate.of(2022, Month.OCTOBER, 8));
+		compra = testUtil.getCompra();
 		
-		producto = new Producto();
-		producto.setActiva(true);
-		producto.setCantidadComprada(5);
-		producto.setCompra(compra);
-		producto.setMarca("MiCasa");
-		producto.setNombre("Balón de fútbol");
-		producto.setPrecioCompra(2.0f);
-		producto.setPrecioVenta(5.0f);
-		producto.setStock(100);
-		
-		producto2 = new Producto();
-		producto2.setActiva(true);
-		producto2.setCantidadComprada(10);
+		producto1 = testUtil.getProducto1();
+		producto1.setCompra(compra);
+		producto2 = testUtil.getProducto2();
 		producto2.setCompra(compra);
-		producto2.setMarca("MiCasa");
-		producto2.setNombre("Balón de fútbol");
-		producto2.setPrecioCompra(3.0f);
-		producto2.setPrecioVenta(5.0f);
-		producto2.setStock(100);
+		producto3 = testUtil.getProducto3();
+		producto3.setCompra(compra);
 	}
 
 	@Test
 	void actualizarImporteTotalTest() {
 		
 		List<Producto> listaProductos = new ArrayList<>();
-		listaProductos.add(producto);
+		listaProductos.add(producto1);
 		listaProductos.add(producto2);
+		listaProductos.add(producto3);
 		
 		cut.actualizarImporteTotal(listaProductos);
 		cut.actualizarStrock(listaProductos);
 		
-		assertEquals(40, compra.getImporteTotal());
+		assertEquals(75, compra.getImporteTotal());
 	}
 	
 	@Test
 	void actualizarStockCompraTest() {
 		
 		List<Producto> listaProductos = new ArrayList<>();
-		listaProductos.add(producto);
+		listaProductos.add(producto1);
+		listaProductos.add(producto2);
+		listaProductos.add(producto3);
 		
 		cut.actualizarImporteTotal(listaProductos);
 		cut.actualizarStrock(listaProductos);
 		
-		assertEquals(105, producto.getStock());
+		assertEquals(55, producto1.getStock());
 	}
 	
 

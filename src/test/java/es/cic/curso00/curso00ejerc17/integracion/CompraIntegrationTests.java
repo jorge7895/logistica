@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
+import es.cic.curso00.curso00ejerc17.util.TestUtil;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,50 +44,31 @@ class CompraIntegrationTests {
 	private EntityManager em;
 	
 	private Compra compra;
-	private Producto producto;
+	private Producto producto1;
 	private Producto producto2;
 	private Producto producto3;
-	private LocalDate fecha;
+	private TestUtil testUtil;
 	
 	@BeforeEach
 	void setUp()  {
 		
-		fecha = LocalDate.of(2022, Month.OCTOBER, 8);
+		testUtil = new TestUtil();
 		
-		compra = new Compra();
-		compra.setActiva(true);
-		compra.setFechaCompra(fecha);
+		compra = testUtil.getCompra();
 		
-		producto = new Producto();
-		producto.setActiva(true);
-		producto.setCantidadComprada(5);
-		producto.setCompra(compra);
-		producto.setMarca("Micasa");
-		producto.setNombre("Balón de fútbol");
-		producto.setPrecioCompra(5.0f);
-		
-		producto2 = new Producto();
-		producto2.setActiva(true);
-		producto2.setCantidadComprada(10);
+		producto1 = testUtil.getProducto1();
+		producto1.setCompra(compra);
+		producto2 = testUtil.getProducto2();
 		producto2.setCompra(compra);
-		producto2.setMarca("Micasa");
-		producto2.setNombre("Balón de baloncesto");
-		producto2.setPrecioCompra(3.0f);
-		
-		producto3 = new Producto();
-		producto3.setActiva(true);
-		producto3.setCantidadComprada(10);
+		producto3 = testUtil.getProducto3();
 		producto3.setCompra(compra);
-		producto3.setMarca("Micasa");
-		producto3.setNombre("Balón de balonmano");
-		producto3.setPrecioCompra(2.0f);
 	}
 	
 	@Test
 	void testCompra() throws JsonProcessingException, Exception {
 
 		List<Producto> productos = new ArrayList<>();
-		productos.add(producto);
+		productos.add(producto1);
 		productos.add(producto2);
 		productos.add(producto3);
 		

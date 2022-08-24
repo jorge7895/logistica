@@ -13,6 +13,7 @@ import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.model.Venta;
 import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
 import es.cic.curso00.curso00ejerc17.repository.VentaDAO;
+import es.cic.curso00.curso00ejerc17.util.VentaUtil;
 
 @Service
 @Transactional
@@ -26,13 +27,16 @@ public class VentaService {
 	@Autowired
 	private ProductoDAO productoDao;
 	
+	private VentaUtil ventaUtil = new VentaUtil();
+	
 	
 	public Venta crear(List<Producto> productos){
 		
 		LOGGER.trace("Accediendo a la creacion de una venta");
 		
-//		compraUtil.actualizarImporteTotal(productos);
-//		compraUtil.actualizarStrock(productos);
+		ventaUtil.comprobarStock(productos);
+		ventaUtil.actualizarImporteTotal(productos);
+		ventaUtil.actualizarStrock(productos);
 		
 		Venta venta = productos.get(0).getVenta();
 		

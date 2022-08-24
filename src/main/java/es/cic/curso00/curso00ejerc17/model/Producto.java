@@ -28,7 +28,7 @@ public class Producto extends AbstractModel{
 	
 	private float precioCompra;
 	
-	private long cantidadComprada;
+	private long cantidad;
 	
 	private long stock;
 	
@@ -82,12 +82,12 @@ public class Producto extends AbstractModel{
 		this.precioCompra = precioCompra;
 	}
 
-	public long getCantidadComprada() {
-		return cantidadComprada;
+	public long getCantidad() {
+		return cantidad;
 	}
 
-	public void setCantidadComprada(long cantidadComprada) {
-		this.cantidadComprada = cantidadComprada;
+	public void setCantidad(long cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public long getStock() {

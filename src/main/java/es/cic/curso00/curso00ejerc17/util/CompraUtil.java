@@ -12,7 +12,7 @@ public class CompraUtil {
 		
 		double importeTotalActual = 
 				listaProductos.stream()
-				.mapToDouble(p -> p.getCantidadComprada()*p.getPrecioCompra())
+				.mapToDouble(p -> p.getCantidad()*p.getPrecioCompra())
 				.sum();
 		
 		listaProductos.forEach(p -> validarCompra(p.getCompra(), importeTotalActual));
@@ -20,7 +20,7 @@ public class CompraUtil {
 	
 	public void actualizarStrock(List<Producto> listaProductos) {
 				
-		listaProductos.forEach(p -> p.setStock(p.getStock()+p.getCantidadComprada()));
+		listaProductos.forEach(p -> p.setStock(p.getStock()+p.getCantidad()));
 	}
 	
 	public void validarCompra(Compra compra, double importeTotal) {
