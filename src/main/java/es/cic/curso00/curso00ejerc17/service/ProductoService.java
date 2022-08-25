@@ -1,5 +1,7 @@
 package es.cic.curso00.curso00ejerc17.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,9 +30,17 @@ public class ProductoService{
 		return productoDao.readProductos(pageable);
 	}
 	
-	public void realizarInventario (Producto producto){
+	public Optional<Producto> realizarInventario (Producto producto){
 		
-		productoDao.actualizarStock(producto.getId(), (producto.getStock()-producto.getCantidad()));
+		productoDao.actualizarStock(producto.getId(), producto.getStock());
 		
+		return productoDao.findById(producto.getId());
+	
+	}
+	
+	public Producto buscarProducto (String nombre){
+				
+		return productoDao.findByNombre(nombre);
+	
 	}
 }

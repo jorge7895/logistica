@@ -18,5 +18,7 @@ public interface ProductoDAO extends JpaRepository<Producto, Long>{
 	@Modifying
 	@Query(value = "UPDATE Producto p set p.stock = :stock WHERE p.id = :id")
 	public void actualizarStock(long id, long stock);
+	
+	public Producto findByNombre(String nombre);
 
 }

@@ -1,5 +1,7 @@
 package es.cic.curso00.curso00ejerc17.controller;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.cic.curso00.curso00ejerc17.model.Producto;
@@ -34,17 +37,37 @@ public class ProductoController {
 
 		Page<Producto> resultados = productoService.readProductos(pageable);
 
-		return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(resultados);
+		return ResponseEntity
+				.status(HttpStatus.ACCEPTED)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(resultados);
+
+	}
+	
+	@GetMapping("/buscar")
+	public ResponseEntity<Producto> buscarProducto(@RequestParam String nombre) {
+
+		LOGGER.trace("Recuperando los datos de las ventas");
+
+		Producto producto = productoService.buscarProducto(nombre);
+
+		return ResponseEntity
+				.status(HttpStatus.ACCEPTED)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(producto);
 
 	}
 
-	@PostMapping
-	public ResponseEntity<Producto> realizarInventario(@Validated @RequestBody Producto producto) {
+	@PutMapping("/inventario")
+	public ResponseEntity<Optional<Producto>> realizarInventario(@Validated @RequestBody Producto producto) {
 
-		LOGGER.trace("Realizando un ajuste del stock de productos: {}", producto.toString());
+		LOGGER.trace("Realizando un ajuste del stock des producto: {}", producto.toString());
 		
-		this.productoService.realizarInventario(producto);
+		Optional<Producto> nuevoProducto = this.productoService.realizarInventario(producto);
 
-		return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(producto);
+		return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(nuevoProducto);
 	}
 }

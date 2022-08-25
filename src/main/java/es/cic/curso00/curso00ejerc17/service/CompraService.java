@@ -42,6 +42,8 @@ public class CompraService {
 		Compra compra = productos.get(0).getCompra();
 		
 		productoDao.saveAll(productos);
+		productos.stream().forEach(p -> productoDao.actualizarStock(p.getId(), p.getStock()));
+		
 		
 		return compraDao.save(compra);
 	}

@@ -83,6 +83,24 @@ class CompraIntegrationTests {
 				.andExpect(jsonPath("$.importeTotal",is(75.0)))
 				.andDo(print());
 	}
+	
+	@Test
+	void testCompraStock() throws JsonProcessingException, Exception {
+
+		List<Producto> productos = new ArrayList<>();
+		productos.add(producto1);
+		productos.add(producto2);
+		productos.add(producto3);
+		
+		mvc.perform(post("/api/v1/compra")
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(productos)))
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.stock",is(75.0)))
+				.andDo(print());
+	}
 
 	@Test
 	void testReporteCompra() throws JsonProcessingException, Exception {
