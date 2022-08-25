@@ -13,21 +13,28 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
+import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
 import es.cic.curso00.curso00ejerc17.util.TestUtil;
 
 @SpringBootTest
@@ -50,6 +57,9 @@ class CompraIntegrationTests {
 	private Producto producto3;
 	private TestUtil testUtil;
 	
+	@Autowired
+	private ProductoDAO productoDAO;
+	
 	@BeforeEach
 	void setUp()  {
 		
@@ -67,11 +77,12 @@ class CompraIntegrationTests {
 	
 	@Test
 	void testCompra() throws JsonProcessingException, Exception {
-
+				
 		List<Producto> productos = new ArrayList<>();
 		productos.add(producto1);
 		productos.add(producto2);
 		productos.add(producto3);
+
 		
 		mvc.perform(post("/api/v1/compra")
 				.accept(MediaType.APPLICATION_JSON)
@@ -84,22 +95,15 @@ class CompraIntegrationTests {
 				.andDo(print());
 	}
 	
+	@Disabled
 	@Test
 	void testCompraStock() throws JsonProcessingException, Exception {
 
-		List<Producto> productos = new ArrayList<>();
-		productos.add(producto1);
-		productos.add(producto2);
-		productos.add(producto3);
+		em.persist(producto1);
 		
-		mvc.perform(post("/api/v1/compra")
-				.accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(productos)))
-				.andExpect(status().is2xxSuccessful())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.stock",is(75.0)))
-				.andDo(print());
+		productoDAO.actualizarStock(producto1.getId(), 1000);
+		
+		
 	}
 
 	@Test
