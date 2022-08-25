@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,15 +60,28 @@ public class ProductoController {
 	}
 
 	@PutMapping("/inventario")
-	public ResponseEntity<Optional<Producto>> realizarInventario(@Validated @RequestBody Producto producto) {
+	public ResponseEntity<Optional<Producto>> realizarInventario(@RequestParam long productoId, @RequestParam long stock) {
 
-		LOGGER.trace("Realizando un ajuste del stock des producto: {}", producto.toString());
+		LOGGER.trace("Realizando un ajuste del stock del producto: {}", productoId);
 		
-		Optional<Producto> nuevoProducto = this.productoService.realizarInventario(producto);
+		Optional<Producto> nuevoProducto = productoService.realizarInventario(productoId, stock);
 
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(nuevoProducto);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Producto> crearProducto(@Validated @RequestBody Producto producto) {
+
+		LOGGER.trace("Creando un nuevo producto: {}", producto.toString());
+		
+		Producto productoGuardado = productoService.crearProducto(producto);
+
+		return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(productoGuardado);
 	}
 }

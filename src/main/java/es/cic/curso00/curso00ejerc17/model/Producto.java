@@ -16,7 +16,7 @@ public class Producto extends AbstractModel{
 	
 	private static final long serialVersionUID = 8372988849485424671L;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	private Movimiento movimiento;
 	
 	@NonNull
