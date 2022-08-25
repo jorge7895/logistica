@@ -15,16 +15,24 @@ public class MovimientoUtil {
 				.mapToDouble(p -> p.getCantidad()*p.getPrecioVenta())
 				.sum();
 		
-		listaProductos.forEach(p -> validarMovimiento(p.getMovimiento(), importeTotalActual));
+		listaProductos.forEach(p -> actualizarImporteTotalMovimiento(p.getMovimiento(), importeTotalActual));
 	}
 	
-	public void actualizarStrock(List<Producto> listaProductos) {
-				
-		listaProductos.forEach(p -> p.setStock(p.getStock()-p.getCantidad()));
-	}
-	
-	public void validarMovimiento(Movimiento movimiento, double importeTotal) {
+	public void actualizarImporteTotalMovimiento(Movimiento movimiento, double importeTotal) {
 		movimiento.setImporteTotal(importeTotal);
+	}
+	
+	public void actualizarStrock(List<Producto> listaProductos, TipoMovimiento tipoMovimiento) {
+				
+		if (tipoMovimiento.equals(TipoMovimiento.VENTA)) {
+			
+			listaProductos.forEach(p -> p.setStock(p.getStock()-p.getCantidad()));
+			
+		}else if (tipoMovimiento.equals(TipoMovimiento.COMPRA)){
+			
+			listaProductos.forEach(p -> p.setStock(p.getStock()+p.getCantidad()));
+		}
+		
 	}
 	
 	public void comprobarStock(List<Producto> listaProductos) {

@@ -16,6 +16,7 @@ import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.repository.IMovimientoDAO;
 import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
 import es.cic.curso00.curso00ejerc17.util.MovimientoUtil;
+import es.cic.curso00.curso00ejerc17.util.TipoMovimiento;
 
 @Service
 @Transactional
@@ -35,9 +36,22 @@ public class MovimientoService {
 		
 		LOGGER.trace("Accediendo a la creacion de una venta");
 		
-		movimientoUtil.comprobarStock(productos);
-		movimientoUtil.actualizarImporteTotal(productos);
-		movimientoUtil.actualizarStrock(productos);
+		for (Producto producto : productos) {
+			
+			TipoMovimiento tipoMovimiento = producto.getMovimiento().getTipoMovimiento();
+			
+			if (tipoMovimiento.equals(TipoMovimiento.VENTA)) {
+				
+				movimientoUtil.comprobarStock(productos);
+				movimientoUtil.actualizarImporteTotal(productos);
+				movimientoUtil.actualizarStrock(productos, tipoMovimiento);
+				
+			}else if (tipoMovimiento.equals(TipoMovimiento.COMPRA)){
+				
+				movimientoUtil.actualizarImporteTotal(productos);
+				movimientoUtil.actualizarStrock(productos, tipoMovimiento);
+			}
+		}		
 		
 		Movimiento movimiento = productos.get(0).getMovimiento();
 		
