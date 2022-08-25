@@ -27,4 +27,10 @@ public class ProductoService{
 		
 		return productoDao.readProductos(pageable);
 	}
+	
+	public void realizarInventario (Producto producto){
+		
+		productoDao.actualizarStock(producto.getId(), (producto.getStock()-producto.getCantidad()));
+		
+	}
 }
