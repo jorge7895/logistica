@@ -3,15 +3,11 @@ package es.cic.curso00.curso00ejerc17.util;
 import java.time.LocalDate;
 import java.time.Month;
 
-import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Movimiento;
 import es.cic.curso00.curso00ejerc17.model.Producto;
-import es.cic.curso00.curso00ejerc17.model.Venta;
 
 public class TestUtil {
 	
-	private Venta venta;
-	private Compra compra;
 	private Movimiento movimiento;
 	private Producto producto1;
 	private Producto producto2;
@@ -26,14 +22,6 @@ public class TestUtil {
 		movimiento.setActiva(true);
 		movimiento.setFecha(fecha);
 		movimiento.setTipoMovimiento(TipoMovimiento.COMPRA);
-		
-		compra = new Compra();
-		compra.setActiva(true);
-		compra.setFechaCompra(fecha);
-		
-		venta = new Venta();
-		venta.setActiva(true);
-		venta.setFechaVenta(fecha);
 		
 		producto1 = new Producto();
 		producto1.setActiva(true);
@@ -61,14 +49,6 @@ public class TestUtil {
 		producto3.setPrecioCompra(2.0f);
 		producto3.setPrecioVenta(3.0f);
 		producto3.setStock(50);
-	}
-
-	public Venta getVenta() {
-		return venta;
-	}
-
-	public Compra getCompra() {
-		return compra;
 	}
 
 	public Producto getProducto1() {

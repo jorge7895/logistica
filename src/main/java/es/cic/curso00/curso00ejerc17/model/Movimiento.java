@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
 import es.cic.curso00.curso00ejerc17.util.AbstractModel;
 import es.cic.curso00.curso00ejerc17.util.TipoMovimiento;
 
@@ -14,10 +16,12 @@ public class Movimiento extends AbstractModel{
 
 	private static final long serialVersionUID = -7856945635006206480L;
 
+	@NonNull
 	private LocalDate fecha;
 	
 	private double importeTotal;
 	
+	@NonNull
 	private TipoMovimiento tipoMovimiento;
 	
 	private boolean activa;

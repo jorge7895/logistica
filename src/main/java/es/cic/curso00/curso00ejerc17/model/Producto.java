@@ -6,6 +6,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.lang.NonNull;
+
 import es.cic.curso00.curso00ejerc17.util.AbstractModel;
 
 @Entity
@@ -13,18 +15,14 @@ import es.cic.curso00.curso00ejerc17.util.AbstractModel;
 public class Producto extends AbstractModel{
 	
 	private static final long serialVersionUID = 8372988849485424671L;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Compra compra;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Venta venta;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Movimiento movimiento;
 	
+	@NonNull
 	private String nombre;
 	
+	@NonNull
 	private String marca;
 	
 	private float precioVenta;
@@ -51,14 +49,6 @@ public class Producto extends AbstractModel{
 
 	public void setMarca(String marca) {
 		this.marca = marca;
-	}
-
-	public Compra getCompra() {
-		return compra;
-	}
-
-	public void setCompra(Compra compra) {
-		this.compra = compra;
 	}
 
 	public boolean isActiva() {
@@ -99,14 +89,6 @@ public class Producto extends AbstractModel{
 
 	public void setStock(long stock) {
 		this.stock = stock;
-	}
-
-	public Venta getVenta() {
-		return venta;
-	}
-
-	public void setVenta(Venta venta) {
-		this.venta = venta;
 	}
 
 	public Movimiento getMovimiento() {

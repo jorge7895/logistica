@@ -43,9 +43,20 @@ public class MovimientoController {
 	@GetMapping("/compra")
 	public ResponseEntity<Page<Movimiento>> obtenerComprasTotales(Pageable pageable) {
 
-		LOGGER.trace("Recuperando los datos de las ventas");
+		LOGGER.trace("Recuperando los datos de las compras");
 
 		Page<Movimiento> resultados = movimientoService.obtenerCompras(pageable);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(resultados);
+
+	}
+	
+	@GetMapping("/venta")
+	public ResponseEntity<Page<Movimiento>> obtenerVentasTotales(Pageable pageable) {
+
+		LOGGER.trace("Recuperando los datos de las ventas");
+
+		Page<Movimiento> resultados = movimientoService.obtenerVentas(pageable);
 
 		return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(resultados);
 

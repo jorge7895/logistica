@@ -8,34 +8,35 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import es.cic.curso00.curso00ejerc17.model.Compra;
+import es.cic.curso00.curso00ejerc17.model.Movimiento;
 import es.cic.curso00.curso00ejerc17.model.Producto;
-import es.cic.curso00.curso00ejerc17.util.CompraUtil;
+import es.cic.curso00.curso00ejerc17.util.MovimientoUtil;
 import es.cic.curso00.curso00ejerc17.util.TestUtil;
+import es.cic.curso00.curso00ejerc17.util.TipoMovimiento;
 
-class CompraUtilTest {
+class MovimientoUtilTest {
 	
-	private CompraUtil cut;
+	private MovimientoUtil cut;
 	private Producto producto1;
 	private Producto producto2;
 	private Producto producto3;
-	private Compra compra;
+	private Movimiento movimiento;
 	private TestUtil testUtil;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		cut= new CompraUtil();
+		cut= new MovimientoUtil();
 		testUtil = new TestUtil();
 		
-		compra = testUtil.getCompra();
+		movimiento = testUtil.getMovimiento();
 		
 		producto1 = testUtil.getProducto1();
-		producto1.setCompra(compra);
+		producto1.setMovimiento(movimiento);
 		producto2 = testUtil.getProducto2();
-		producto2.setCompra(compra);
+		producto2.setMovimiento(movimiento);
 		producto3 = testUtil.getProducto3();
-		producto3.setCompra(compra);
+		producto3.setMovimiento(movimiento);
 	}
 
 	@Test
@@ -47,9 +48,10 @@ class CompraUtilTest {
 		listaProductos.add(producto3);
 		
 		cut.actualizarImporteTotal(listaProductos);
-		cut.actualizarStrock(listaProductos);
+		cut.actualizarStrock(listaProductos, TipoMovimiento.COMPRA);
 		
-		assertEquals(75, compra.getImporteTotal());
+		
+		assertEquals(100, movimiento.getImporteTotal());
 	}
 	
 	@Test
@@ -61,7 +63,7 @@ class CompraUtilTest {
 		listaProductos.add(producto3);
 		
 		cut.actualizarImporteTotal(listaProductos);
-		cut.actualizarStrock(listaProductos);
+		cut.actualizarStrock(listaProductos, TipoMovimiento.COMPRA);
 		
 		assertEquals(55, producto1.getStock());
 	}
