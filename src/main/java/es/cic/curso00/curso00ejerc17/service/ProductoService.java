@@ -30,11 +30,11 @@ public class ProductoService{
 		return productoDao.readProductos(pageable);
 	}
 	
-	public Optional<Producto> realizarInventario (Producto producto){
+	public Optional<Producto> realizarInventario (long productoId, long stock){
 		
-		productoDao.actualizarStock(producto.getId(), producto.getStock());
+		productoDao.actualizarStock(productoId, stock);
 		
-		return productoDao.findById(producto.getId());
+		return productoDao.findById(productoId);
 	
 	}
 	
@@ -42,5 +42,10 @@ public class ProductoService{
 				
 		return productoDao.findByNombre(nombre);
 	
+	}
+	
+	public Producto crearProducto(Producto producto) {
+		
+		return productoDao.save(producto);
 	}
 }
