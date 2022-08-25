@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
+import es.cic.curso00.curso00ejerc17.model.Movimiento;
 import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.model.Venta;
 
@@ -11,6 +12,7 @@ public class TestUtil {
 	
 	private Venta venta;
 	private Compra compra;
+	private Movimiento movimiento;
 	private Producto producto1;
 	private Producto producto2;
 	private Producto producto3;
@@ -19,6 +21,11 @@ public class TestUtil {
 	public TestUtil()  {
 		
 		fecha = LocalDate.of(2022, Month.OCTOBER, 8);
+		
+		movimiento = new Movimiento();
+		movimiento.setActiva(true);
+		movimiento.setFecha(fecha);
+		movimiento.setTipoMovimiento(TipoMovimiento.COMPRA);
 		
 		compra = new Compra();
 		compra.setActiva(true);
@@ -74,6 +81,10 @@ public class TestUtil {
 
 	public Producto getProducto3() {
 		return producto3;
+	}
+
+	public Movimiento getMovimiento() {
+		return movimiento;
 	}
 
 

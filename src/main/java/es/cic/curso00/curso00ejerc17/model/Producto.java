@@ -20,6 +20,9 @@ public class Producto extends AbstractModel{
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Venta venta;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Movimiento movimiento;
+	
 	private String nombre;
 	
 	private String marca;
@@ -104,6 +107,14 @@ public class Producto extends AbstractModel{
 
 	public void setVenta(Venta venta) {
 		this.venta = venta;
+	}
+
+	public Movimiento getMovimiento() {
+		return movimiento;
+	}
+
+	public void setMovimiento(Movimiento movimiento) {
+		this.movimiento = movimiento;
 	}
 	
 }

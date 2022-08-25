@@ -15,26 +15,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.cic.curso00.curso00ejerc17.model.Compra;
 import es.cic.curso00.curso00ejerc17.model.Producto;
-import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
 import es.cic.curso00.curso00ejerc17.util.TestUtil;
 
 @SpringBootTest
@@ -47,7 +40,7 @@ class CompraIntegrationTests {
 
 	@Autowired
 	private ObjectMapper objectMapper;
-
+	
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -56,9 +49,6 @@ class CompraIntegrationTests {
 	private Producto producto2;
 	private Producto producto3;
 	private TestUtil testUtil;
-	
-	@Autowired
-	private ProductoDAO productoDAO;
 	
 	@BeforeEach
 	void setUp()  {
@@ -93,17 +83,6 @@ class CompraIntegrationTests {
 				.andExpect(jsonPath("$.fechaCompra",is("2022-10-08")))
 				.andExpect(jsonPath("$.importeTotal",is(75.0)))
 				.andDo(print());
-	}
-	
-	@Disabled
-	@Test
-	void testCompraStock() throws JsonProcessingException, Exception {
-
-		em.persist(producto1);
-		
-		productoDAO.actualizarStock(producto1.getId(), 1000);
-		
-		
 	}
 
 	@Test
