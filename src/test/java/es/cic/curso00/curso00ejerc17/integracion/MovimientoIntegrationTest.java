@@ -46,9 +46,6 @@ class MovimientoIntegrationTest {
 	private EntityManager em;
 	
 	private Movimiento movimiento;
-	private Producto producto1;
-	private Producto producto2;
-	private Producto producto3;
 	private TestUtil testUtil;
 	
 	@BeforeEach
@@ -58,27 +55,21 @@ class MovimientoIntegrationTest {
 		
 		movimiento = testUtil.getMovimiento();
 		
-		producto1 = testUtil.getProducto1();
-		producto1.setMovimiento(movimiento);
-		producto2 = testUtil.getProducto2();
-		producto2.setMovimiento(movimiento);
-		producto3 = testUtil.getProducto3();
-		producto3.setMovimiento(movimiento);
+		List<Producto> listaProductos = new ArrayList<>();
+		listaProductos.add(testUtil.getProducto1());
+		listaProductos.add(testUtil.getProducto2());
+		listaProductos.add(testUtil.getProducto3());
+		
+		movimiento.setProductos(listaProductos);
 	}
 	
 	@Test
 	void testMovimientoCompra() throws JsonProcessingException, Exception {
-				
-		List<Producto> productos = new ArrayList<>();
-		productos.add(producto1);
-		productos.add(producto2);
-		productos.add(producto3);
-
-		
+						
 		mvc.perform(post("/api/v1/movimiento")
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(productos)))
+				.content(objectMapper.writeValueAsString(movimiento)))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.fecha",is("2022-10-08")))
@@ -89,19 +80,12 @@ class MovimientoIntegrationTest {
 	@Test
 	void testMovimientoVenta() throws JsonProcessingException, Exception {
 				
-		producto1.getMovimiento().setTipoMovimiento(TipoMovimiento.VENTA);
-		producto2.getMovimiento().setTipoMovimiento(TipoMovimiento.VENTA);
-		producto3.getMovimiento().setTipoMovimiento(TipoMovimiento.VENTA);
-		List<Producto> productos = new ArrayList<>();
-		productos.add(producto1);
-		productos.add(producto2);
-		productos.add(producto3);
-
+		movimiento.setTipoMovimiento(TipoMovimiento.VENTA);
 		
 		mvc.perform(post("/api/v1/movimiento")
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(productos)))
+				.content(objectMapper.writeValueAsString(movimiento)))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.fecha",is("2022-10-08")))
@@ -111,18 +95,14 @@ class MovimientoIntegrationTest {
 	
 	@Test
 	void testMovimientoVentaSinStock() throws JsonProcessingException, Exception {
-				
-		producto1.getMovimiento().setTipoMovimiento(TipoMovimiento.VENTA);
-		producto1.setStock(0);
-		
-		List<Producto> productos = new ArrayList<>();
-		productos.add(producto1);
-
+					
+		movimiento.getProductos().get(0).setStock(0);
+		movimiento.setTipoMovimiento(TipoMovimiento.VENTA);
 		
 		mvc.perform(post("/api/v1/movimiento")
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(productos)))
+				.content(objectMapper.writeValueAsString(movimiento)))
 				.andExpect(status().is4xxClientError());
 	}
 
