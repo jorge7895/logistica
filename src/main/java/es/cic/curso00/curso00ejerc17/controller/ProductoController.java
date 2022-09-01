@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +37,7 @@ public class ProductoController {
 
 		LOGGER.trace("Recuperando los datos de las ventas");
 
-		Page<Producto> resultados = productoService.readProductos(pageable);
+		Page<Producto> resultados = productoService.listarProductos(pageable);
 
 		return ResponseEntity
 				.status(HttpStatus.ACCEPTED)
@@ -83,5 +84,13 @@ public class ProductoController {
 				.status(HttpStatus.CREATED)
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(productoGuardado);
+	}
+	
+	@DeleteMapping
+	public void eliminarProducto(@Validated @RequestBody Producto producto) {
+		
+		LOGGER.trace("Eliminandoo producto: {}", producto.toString());
+		
+		productoService.eliminarProducto(producto);
 	}
 }

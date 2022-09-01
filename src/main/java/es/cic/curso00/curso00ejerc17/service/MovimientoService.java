@@ -1,7 +1,5 @@
 package es.cic.curso00.curso00ejerc17.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,9 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.cic.curso00.curso00ejerc17.model.Movimiento;
-import es.cic.curso00.curso00ejerc17.model.Producto;
 import es.cic.curso00.curso00ejerc17.repository.IMovimientoDAO;
-import es.cic.curso00.curso00ejerc17.repository.ProductoDAO;
 import es.cic.curso00.curso00ejerc17.util.MovimientoUtil;
 import es.cic.curso00.curso00ejerc17.util.TipoMovimiento;
 
@@ -23,48 +19,36 @@ import es.cic.curso00.curso00ejerc17.util.TipoMovimiento;
 public class MovimientoService {
 
 	private static final Logger LOGGER = LogManager.getLogger(MovimientoService.class);
-	
+
 	@Autowired
 	private IMovimientoDAO movimientoDao;
-	
-	@Autowired
-	private ProductoDAO productoDao;
-	
+
 	private MovimientoUtil movimientoUtil = new MovimientoUtil();
-	
-	public Movimiento crearMovimiento(List<Producto> productos){
-		
+
+	public Movimiento crearMovimiento(Movimiento movimiento) {
+
 		LOGGER.trace("Accediendo a la creacion de una venta");
-		
-		for (Producto producto : productos) {
-			
-			TipoMovimiento tipoMovimiento = producto.getMovimiento().getTipoMovimiento();
-			
-			if (tipoMovimiento.equals(TipoMovimiento.VENTA)) {
-				
-				movimientoUtil.comprobarStock(productos);
-				movimientoUtil.actualizarImporteTotal(productos);
-				movimientoUtil.actualizarStrock(productos, tipoMovimiento);
-				
-			}else if (tipoMovimiento.equals(TipoMovimiento.COMPRA)){
-				
-				movimientoUtil.actualizarImporteTotal(productos);
-				movimientoUtil.actualizarStrock(productos, tipoMovimiento);
-			}
-		}		
-		
-		Movimiento movimiento = productos.get(0).getMovimiento();
-		
-		productoDao.saveAll(productos);
-		
+
+		if (movimiento.getTipoMovimiento().equals(TipoMovimiento.VENTA)) {
+
+			movimientoUtil.comprobarStock(movimiento.getProductos());
+			movimientoUtil.actualizarImporteTotal(movimiento);
+			movimientoUtil.actualizarStrock(movimiento.getProductos(), movimiento.getTipoMovimiento());
+
+		} else if (movimiento.getTipoMovimiento().equals(TipoMovimiento.COMPRA)) {
+
+			movimientoUtil.actualizarImporteTotal(movimiento);
+			movimientoUtil.actualizarStrock(movimiento.getProductos(), movimiento.getTipoMovimiento());
+		}
+
 		return movimientoDao.save(movimiento);
 	}
-	
-	public Page<Movimiento> obtenerVentas(Pageable pageable){
+
+	public Page<Movimiento> obtenerVentas(Pageable pageable) {
 		return movimientoDao.obtenerVentas(pageable);
 	}
-	
-	public Page<Movimiento> obtenerCompras(Pageable pageable){
+
+	public Page<Movimiento> obtenerCompras(Pageable pageable) {
 		return movimientoDao.obtenerCompras(pageable);
 	}
 }

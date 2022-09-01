@@ -8,18 +8,14 @@ import es.cic.curso00.curso00ejerc17.model.Producto;
 
 public class MovimientoUtil {
 
-	public void actualizarImporteTotal(List<Producto> listaProductos) {
+	public void actualizarImporteTotal(Movimiento movimiento) {
 		
 		double importeTotalActual = 
-				listaProductos.stream()
+				movimiento.getProductos().stream()
 				.mapToDouble(p -> p.getCantidad()*p.getPrecioVenta())
 				.sum();
 		
-		listaProductos.forEach(p -> actualizarImporteTotalMovimiento(p.getMovimiento(), importeTotalActual));
-	}
-	
-	public void actualizarImporteTotalMovimiento(Movimiento movimiento, double importeTotal) {
-		movimiento.setImporteTotal(importeTotal);
+		movimiento.setImporteTotal(importeTotalActual);
 	}
 	
 	public void actualizarStrock(List<Producto> listaProductos, TipoMovimiento tipoMovimiento) {
@@ -38,7 +34,7 @@ public class MovimientoUtil {
 	public void comprobarStock(List<Producto> listaProductos) {
 		
 		for (Producto producto : listaProductos) {
-			if(producto.getStock() <= producto.getCantidad()) {
+			if(producto.getStock() < producto.getCantidad()) {
 				throw new ProductoException("Stock insuficiente", producto);
 			}
 		}

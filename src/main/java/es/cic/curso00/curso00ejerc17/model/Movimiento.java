@@ -1,9 +1,13 @@
 package es.cic.curso00.curso00ejerc17.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.springframework.lang.NonNull;
 
@@ -16,10 +20,16 @@ public class Movimiento extends AbstractModel{
 
 	private static final long serialVersionUID = -7856945635006206480L;
 
+	@Version
+	private long version;
+	
 	@NonNull
 	private LocalDate fecha;
 	
 	private double importeTotal;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Producto> productos;
 	
 	@NonNull
 	private TipoMovimiento tipoMovimiento;
@@ -56,5 +66,13 @@ public class Movimiento extends AbstractModel{
 
 	public void setActiva(boolean activa) {
 		this.activa = activa;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 }

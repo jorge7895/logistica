@@ -1,23 +1,23 @@
 package es.cic.curso00.curso00ejerc17.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 
 import org.springframework.lang.NonNull;
 
 import es.cic.curso00.curso00ejerc17.util.AbstractModel;
 
 @Entity
-@Table(uniqueConstraints ={@UniqueConstraint(name = "UniqueProducto", columnNames = {"nombre", "marca"})})
+@Table(uniqueConstraints ={@UniqueConstraint(name = "UniqueProducto", columnNames = {"nombre", "marca", "version"})})
 public class Producto extends AbstractModel{
 	
 	private static final long serialVersionUID = 8372988849485424671L;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	private Movimiento movimiento;
+	@Version
+	private long version;
+	//Para evitar la concurrencia a la hora de actualizar 
 	
 	@NonNull
 	private String nombre;
@@ -89,14 +89,6 @@ public class Producto extends AbstractModel{
 
 	public void setStock(long stock) {
 		this.stock = stock;
-	}
-
-	public Movimiento getMovimiento() {
-		return movimiento;
-	}
-
-	public void setMovimiento(Movimiento movimiento) {
-		this.movimiento = movimiento;
 	}
 	
 }

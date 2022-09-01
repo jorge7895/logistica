@@ -23,7 +23,7 @@ public class ProductoService{
 	@Autowired
 	private ProductoDAO productoDao;
 	
-	public Page<Producto> readProductos(Pageable pageable){
+	public Page<Producto> listarProductos(Pageable pageable){
 		
 		LOGGER.trace("Accediendo a la lectura de productos disponibles");
 		
@@ -47,5 +47,11 @@ public class ProductoService{
 	public Producto crearProducto(Producto producto) {
 		
 		return productoDao.save(producto);
+	}
+	
+	public void eliminarProducto(Producto producto) {
+		
+		producto.setActiva(false);
+		productoDao.save(producto);
 	}
 }
